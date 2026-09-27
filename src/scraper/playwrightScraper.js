@@ -1,3 +1,4 @@
+process.env.PLAYWRIGHT_BROWSERS_PATH = '0';
 const { chromium } = require('playwright');
 
 /**
@@ -25,7 +26,7 @@ async function executeAttemptWithTimeout(productId, targetUrl, selectedOption, h
       const context = await browser.newContext({
         viewport: { width: 1280, height: 800 }
       });
-      
+
       // Set strict default timeouts on context to prevent hanging locators
       context.setDefaultTimeout(5000);
       context.setDefaultNavigationTimeout(10000);
@@ -61,7 +62,7 @@ async function executeAttemptWithTimeout(productId, targetUrl, selectedOption, h
         const allowBtn = page.locator('.consent-scrim button, .consent-box button');
         if (await allowBtn.count() > 0) {
           console.log(`[Scraper] Dismissing consent overlay via button click...`);
-          await allowBtn.first().click({ timeout: 2000 }).catch(() => {});
+          await allowBtn.first().click({ timeout: 2000 }).catch(() => { });
           await page.waitForTimeout(200);
         }
       }
@@ -85,7 +86,7 @@ async function executeAttemptWithTimeout(productId, targetUrl, selectedOption, h
           for (const chip of optionChips) {
             const text = cleanString(await chip.innerText());
             if (text.toLowerCase() === selectedOption.toLowerCase() ||
-                text.toLowerCase().includes(selectedOption.toLowerCase())) {
+              text.toLowerCase().includes(selectedOption.toLowerCase())) {
               matchedChip = chip;
               matchedChipText = text;
               break;
@@ -171,7 +172,7 @@ async function executeAttemptWithTimeout(productId, targetUrl, selectedOption, h
       await page.waitForFunction(() => {
         const b = document.querySelector('.offer-panel button');
         return b && !b.disabled;
-      }, { timeout: 2000 }).catch(() => {});
+      }, { timeout: 2000 }).catch(() => { });
 
       const activeBtn = page.locator('.offer-panel button');
       await activeBtn.click({ force: true, timeout: 3000 }).catch(async () => {
@@ -205,7 +206,7 @@ async function executeAttemptWithTimeout(productId, targetUrl, selectedOption, h
         await page.waitForTimeout(700);
 
         const retryBtn = page.locator('.offer-panel button');
-        await retryBtn.click({ force: true, timeout: 3000 }).catch(() => {});
+        await retryBtn.click({ force: true, timeout: 3000 }).catch(() => { });
         await page.waitForTimeout(2500);
       }
 
@@ -259,7 +260,7 @@ async function executeAttemptWithTimeout(productId, targetUrl, selectedOption, h
     } finally {
       if (browser) {
         console.log(`[Scraper] Closing Chromium browser context...`);
-        await browser.close().catch(() => {});
+        await browser.close().catch(() => { });
         browser = null;
       }
     }
@@ -281,7 +282,7 @@ async function executeAttemptWithTimeout(productId, targetUrl, selectedOption, h
     clearTimeout(timeoutTimer);
     if (browser) {
       console.log(`[Scraper] Cleaning up browser after attempt error/timeout...`);
-      await browser.close().catch(() => {});
+      await browser.close().catch(() => { });
     }
     throw err;
   }
