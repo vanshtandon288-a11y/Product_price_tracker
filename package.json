@@ -1,0 +1,20 @@
+{
+  "name": "product-price-tracker",
+  "version": "1.0.0",
+  "description": "INE Product Price Tracker (Web Scraping)",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "build": "cd frontend && npm run build",
+    "scrape:headed": "node src/scraper/testRun.js --headed",
+    "test:scraper": "node src/scraper/testRun.js",
+    "test:api": "node tests/testBackendApis.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "playwright": "^1.63.0"
+  }
+}
